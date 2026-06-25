@@ -1,0 +1,23 @@
+@baseUrl = http://localhost:5006
+
+### 서버 확인
+GET {{baseUrl}}/
+
+### 사도 목록 확인
+GET {{baseUrl}}/api/apostles
+
+### 6명 모드 게임 시작
+POST {{baseUrl}}/api/games
+Content-Type: application/json
+
+{
+  "modeId": "six"
+}
+
+### 9명 모드 게임 시작
+POST {{baseUrl}}/api/games
+Content-Type: application/json
+
+{
+  "modeId": "nine"
+}
