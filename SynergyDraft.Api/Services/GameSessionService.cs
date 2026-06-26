@@ -3,20 +3,23 @@ using Microsoft.Extensions.Options;
 using SynergyDraft.Api.Models;
 
 namespace SynergyDraft.Api.Services;
-
+// 드래프트 게임 세션을 관리하는 핵심 서비스.
+// 게임 시작, 후보 생성, 후보 선택 검증, 배치 열 제한, 게임 종료 판정을 처리한다.
 public class GameSessionService
 {
     private readonly ApostleRepository _apostleRepository;
     private readonly DraftOptions _options;
 
     private readonly ConcurrentDictionary<Guid, GameSession> _sessions = new();
-
+    private readonly ScoreService _scoreService;
     public GameSessionService(
-        ApostleRepository apostleRepository,
-        IOptions<DraftOptions> options)
+    ApostleRepository apostleRepository,
+    IOptions<DraftOptions> options,
+    ScoreService scoreService)
     {
         _apostleRepository = apostleRepository;
         _options = options.Value;
+        _scoreService = scoreService;
     }
 
     public GameStateResponse StartGame(string? requestedModeId)
@@ -219,6 +222,13 @@ public class GameSessionService
         var selected = _apostleRepository.FindByIds(selectedIds);
         var candidates = _apostleRepository.FindByIds(session.CandidateApostleIds);
 
+        ScoreResult? scoreResult = null;
+
+        if (session.IsFinished)
+        {
+            scoreResult = _scoreService.Calculate(selected);
+        }
+
         return new GameStateResponse
         {
             GameId = session.GameId,
@@ -231,7 +241,8 @@ public class GameSessionService
             IsFinished = session.IsFinished,
             SelectedApostles = selected,
             Candidates = candidates,
-            RowCounts = GetRowCounts(session)
+            RowCounts = GetRowCounts(session),
+            ScoreResult = scoreResult
         };
     }
 }

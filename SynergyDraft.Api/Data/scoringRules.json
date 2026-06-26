@@ -1,0 +1,33 @@
+{
+    "_comment": "이 json은 게임이 종료된 후, 사도조합의 점수를 측정하기 위해 구성된, 점수표입니다. 밸런스패치가 필요한 경우 이곳을 수정합니다.",
+  "baseScorePerApostle": 10,
+
+  "personalitySynergyScores": [
+    { "count": 2, "score": 15 },
+    { "count": 4, "score": 40 },
+    { "count": 6, "score": 90 }
+  ],
+
+  "speciesSynergyScores": [
+    { "count": 2, "score": 6 },
+    { "count": 4, "score": 16 },
+    { "count": 6, "score": 35 }
+  ],
+
+  "chemistryScores": [
+    { "requiredCount": 2, "score": 15 },
+    { "requiredCount": 3, "score": 30 },
+    { "requiredCount": 4, "score": 50 }
+  ],
+
+  "missingRolePenalty": -20,
+
+  "roleOverConcentrationPenalties": [
+    { "count": 4, "score": -8 },
+    { "count": 5, "score": -15 },
+    { "count": 6, "score": -25 }
+  ],
+
+  "eldainBonusPerApostle": 5,
+  "eldainBonusMax": 15
+}
